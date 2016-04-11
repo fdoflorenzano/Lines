@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
+@font-face {
+    font-family: myFirstFont;
+    src: url('font/VAGRoundedStd-Thin.otf');
+}
+body {
+  font-family: myFirstFont;
+}
 line {
-  stroke-width: 1.5px;
+  stroke-width: 1px;
+  stroke: black;
 }
 </style>
 <body>
 <script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="LINES.js"></script>
 <script>
 
 
-var dim=460,
+var dim=600,
     width = dim,
     height = dim,
     N = 3,
     M= 10,
-    T= 100;
+    T= 12;
 
 var data = [];
 for(var k = 0; k < T; k++){
-  data[k] = [];
-  for(var i = 0; i < N; i++){
-    for(var j = 0; j < M; j++){
-      data[k].push({'x1': width/2 + width/2*j/M*Math.cos(Math.PI*2/N*(i-1)%N),
-                 'y1': width/2 + width/2*j/M*Math.sin(Math.PI*2/N*(i-1)%N),
-                 'x2': width/2 + width/2*Math.cos(Math.PI*2*i/N) - width/2*j/M*Math.cos(Math.PI*2*i/N),
-                 'y2': width/2 + width/2*Math.sin(Math.PI*2*i/N) - width/2*j/M*Math.sin(Math.PI*2*i/N)});
-    }
-  }
+  data[k] = LINES(N, width/2, width/2, width/2, M);
   N++;
 }
-
 
 var color = d3.scale.category20c();
 
@@ -43,8 +43,7 @@ for(var i = 0; i < T; i++){
   svgs[i].append("text")
     .attr("dx",0)
     .attr("dy",20)
-    .text("N = "+ (N-T+i))
-    .attr("stroke", function(d){ return color(i%20)});
+    .text("N = "+ (N-T+i));
   lines[i] = svgs[i].selectAll(".lines");
   lines[i].data(data[i])
     .enter().append("line")
