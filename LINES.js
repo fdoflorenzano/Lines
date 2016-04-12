@@ -1,13 +1,16 @@
-function LINES(N, radius, cx, cy, rotation = 0, M = 10) {
+function RADIAL(N, radius, cx, cy, rotation = 0, M = 10) {
   	var lines = [];
   	for (var i = 0; i < N; i++) {
-    	for (var j = 0; j < M; j++) {
-      	lines.push({'x1': cx + radius * j / M * Math.cos(Math.PI * 2 / N * (i - 1) % N),
-                 'y1': cy + radius * j / M * Math.sin(Math.PI * 2 / N * (i - 1) % N),
-                 'x2': cx + radius * Math.cos(Math.PI * 2 * i / N) - radius * j / M * Math.cos(Math.PI * 2 * i / N),
-                 'y2': cy + radius * Math.sin(Math.PI * 2 * i / N) - radius * j / M * Math.sin(Math.PI * 2 * i / N)});
-      }
+      lines.push({'x1': cx + radius  * Math.cos(Math.PI * 2 / N * (i - 1) % N),
+                 'y1': cy + radius  * Math.sin(Math.PI * 2 / N * (i - 1) % N),
+                 'x2': cx + radius * Math.cos(Math.PI * 2 * i / N) - radius  * Math.cos(Math.PI * 2 * i / N),
+                 'y2': cy + radius * Math.sin(Math.PI * 2 * i / N) - radius  * Math.sin(Math.PI * 2 * i / N)});
     }
+    var web = [];
+    for( i = 0; i < N; i++){
+      web = web.concat(WEB(lines[i], lines[(i+1)%N], M));
+    }
+    lines = lines.concat(web);
     lines.forEach(function(line){
       var x1 = (line.x1-cx)*Math.cos(Math.PI*rotation/180) - (line.y1-cy)*Math.sin(Math.PI*rotation/180);
       var y1 = (line.x1-cx)*Math.sin(Math.PI*rotation/180) + (line.y1-cy)*Math.cos(Math.PI*rotation/180);
@@ -19,4 +22,17 @@ function LINES(N, radius, cx, cy, rotation = 0, M = 10) {
       line.y2 = cy + y2;
     });
   	return lines;
+}
+
+function WEB(line1, line2, M){
+  var lines = [];
+  for(var i = 0; i < M+1 ; i++){
+    lines.push({
+      'x1': line1.x1 + i*(line1.x2 - line1.x1)/M,
+      'y1': line1.y1 + i*(line1.y2 - line1.y1)/M,
+      'x2': line2.x2 + i*(line2.x1 - line2.x2)/M,
+      'y2': line2.y2 + i*(line2.y1 - line2.y2)/M
+    });
+  }
+  return lines;
 }

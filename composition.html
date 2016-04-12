@@ -24,15 +24,15 @@ var dim=1000,
 
 var data = [];
 
-data = data.concat(LINES(3 , 100, width/2, width*0.35, 100));
-data = data.concat(LINES(5 , 200, 3*width/4, 2*width/5, 32));
-data = data.concat(LINES(4 , 180, width/4, width* 0.80, 55));
-data = data.concat(LINES(8 , 600, width, width, 0, 20));
-data = data.concat(LINES(6 , 600, width/7, width/5, 0, 20));
-data = data.concat(LINES(3 , 300, width*0.85, width*0.1, 60));
-data = data.concat(LINES(10 , 70, width*0.9, width*0.6, 0, 8));
-data = data.concat(LINES(12 , 50, width*0.12, width*0.8, 0, 7));
-data = data.concat(LINES(7 , 40, width*0.65, width*0.75, 45, 8));
+data = data.concat(RADIAL(3 , 100, width/2, width*0.35, 100));
+data = data.concat(RADIAL(5 , 200, 3*width/4, 2*width/5, 32));
+data = data.concat(RADIAL(4 , 180, width/4, width* 0.80, 55));
+data = data.concat(RADIAL(8 , 600, width, width, 0, 20));
+data = data.concat(RADIAL(6 , 600, width/7, width/5, 0, 20));
+data = data.concat(RADIAL(3 , 300, width*0.85, width*0.1, 60));
+data = data.concat(RADIAL(10 , 70, width*0.9, width*0.6, 0, 8));
+data = data.concat(RADIAL(12 , 50, width*0.12, width*0.8, 0, 7));
+data = data.concat(RADIAL(7 , 40, width*0.65, width*0.75, 45, 8));
 
 svg = d3.select("body").append("svg")
     .attr("width", width)

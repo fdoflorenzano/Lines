@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+@font-face {
+    font-family: myFirstFont;
+    src: url('font/VAGRoundedStd-Thin.otf');
+}
+body {
+  font-family: myFirstFont;
+}
+line {
+  stroke-width: 1px;
+}
+</style>
+<body>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="LINES.js"></script>
+<script>
+
+
+var dim=600,
+    width = dim,
+    height = dim,
+    M= 10;
+
+var data = [{'x1': 0, 'y1':0, 'x2': 100, 'y2':100},
+{'x1': 200, 'y1': 0, 'x2': 100, 'y2':100},
+{'x1': 200, 'y1': 0, 'x2': 300, 'y2':200},
+{'x1': 500, 'y1': 300, 'x2': 300, 'y2':200},
+{'x1': 500, 'y1': 300, 'x2': 300, 'y2':250},
+{'x1': 200, 'y1': 350, 'x2': 300, 'y2':250},
+{'x1': 200, 'y1': 350, 'x2': 200, 'y2':150},
+{'x1': 200, 'y1': 350, 'x2': 150, 'y2':400},
+{'x1': 400, 'y1': 500, 'x2': 150, 'y2':400},
+{'x1': 100, 'y1': 550, 'x2': 150, 'y2':400},
+{'x1': 50, 'y1': 200, 'x2': 150, 'y2':400},
+{'x1': 50, 'y1': 200, 'x2': 100, 'y2':100}];
+
+data = data.concat(WEB(data[0], data[1], 15));
+data = data.concat(WEB(data[1], data[2], 15));
+data = data.concat(WEB(data[2], data[3], 15));
+data = data.concat(WEB(data[3], data[4], 15));
+data = data.concat(WEB(data[4], data[5], 15));
+data = data.concat(WEB(data[5], data[6], 15));
+data = data.concat(WEB(data[6], data[7], 15));
+data = data.concat(WEB(data[7], data[8], 15));
+data = data.concat(WEB(data[8], data[9], 15));
+data = data.concat(WEB(data[9], data[10], 15));
+data = data.concat(WEB(data[10], data[11], 15));
+data = data.concat(WEB(data[11], data[0], 15));
+
+svgs = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+lines = svgs.selectAll(".lines");
+lines.data(data)
+  .enter().append("line")
+  .attr("x1", function(d){ return d.x1;})
+  .attr("y1", function(d){ return d.y1;})
+  .attr("x2", function(d){ return d.x2;})
+  .attr("y2", function(d){ return d.y2;})
+  .attr("stroke", 'white');
+
+  d3.selectAll("line").transition()
+  .delay(function(d,i){ return 20*i;})
+  .duration(500)
+  .attr("stroke", 'black');
+
+
+
+</script>
