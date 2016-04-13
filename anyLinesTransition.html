@@ -61,10 +61,22 @@ lines.data(data)
   .attr("y2", function(d){ return d.y2;})
   .attr("stroke", 'white');
 
+var length = data.length;
+
   d3.selectAll("line").transition()
-  .delay(function(d,i){ return 20*i;})
-  .duration(500)
-  .attr("stroke", 'black');
+  .delay(function(d,i){ return 50*i;})
+  .each(show);
+
+function show(){
+  var line = d3.select(this);
+  (function repeat(){
+    line = line.transition()
+      .attr("stroke", 'black')
+      .transition()
+      .attr("stroke", 'white')
+      .each('end', repeat);
+  })();
+}
 
 
 
