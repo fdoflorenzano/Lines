@@ -1,4 +1,6 @@
-function RADIAL(N, radius, cx, cy, rotation = 0, M = 10) {
+function RADIAL(N, radius, cx, cy, rotation, M) {
+    if (typeof rotation === "undefined"){ rotation = 0;}
+    if (typeof M === "undefined"){ M = 10;}
   	var lines = [];
   	for (var i = 0; i < N; i++) {
       lines.push({'x1': cx + radius  * Math.cos(Math.PI * 2 / N * (i - 1) % N),
@@ -15,9 +17,11 @@ function RADIAL(N, radius, cx, cy, rotation = 0, M = 10) {
   	return lines;
 }
 
-function RADIAL_ANGLE(angles, radius, cx, cy, rotation = 0, M = 10){
+function RADIAL_ANGLE(angles, radius, cx, cy, rotation, M){
   var lines = [];
-  if (angles.reduce((a, b) => a + b, 0) != 360) { return lines;}
+  if (angles.reduce(function(a,b){ return a+b; }, 0) != 360) { return lines;}
+  if (typeof rotation === "undefined"){ rotation = 0;}
+  if (typeof M === "undefined"){ M = 10;}
   var sum = 0;
   for (var i = 0; i < angles.length; i++) {
     sum += angles[i];
