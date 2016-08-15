@@ -24,20 +24,9 @@ var dim=1000,
 
 var data = [];
 
-var angles = [360];
-function divide (a){
-  var angle = a.pop();
-  if(angle < 1){
-    a.push(angle);
-    return a;
-  }
-  a.push(angle/2);
-  a.push(angle/2);
-  divide(a);
-}
-divide(angles);
-
-data = data.concat(RADIAL_ANGLE(angles , width/2, width/2, width/2, 100, 20));
+var angles = [90,90,60,30,30,60];
+var radii = [300,150,50,400,50,150];
+data = data.concat(RADIAL_ANGLE_RADII(angles, radii, width/3, width/2, 150, 20));
 
 svg = d3.select("body").append("svg")
     .attr("width", width)

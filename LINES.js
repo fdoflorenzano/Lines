@@ -17,6 +17,26 @@ function RADIAL(N, radius, cx, cy, rotation, M) {
   	return lines;
 }
 
+function RADIAL_RADII(N, radii, cx, cy, rotation, M) {
+    if (typeof rotation === "undefined"){ rotation = 0;}
+    if (typeof M === "undefined"){ M = 10;}
+  	var lines = [];
+    if (N != radii.length){ return lines; }
+  	for (var i = 0; i < N; i++) {
+      lines.push({'x1': cx + radii[i]  * Math.cos(Math.PI * 2 / N * (i - 1) % N),
+                 'y1': cy + radii[i]  * Math.sin(Math.PI * 2 / N * (i - 1) % N),
+                 'x2': cx,
+                 'y2': cy});
+    }
+    var web = [];
+    for( i = 0; i < N; i++){
+      web = web.concat(WEB(lines[i], lines[(i+1)%N], M));
+    }
+    lines = lines.concat(web);
+    lines = ROTATE(lines, rotation, cx, cy);
+  	return lines;
+}
+
 function RADIAL_ANGLE(angles, radius, cx, cy, rotation, M){
   var lines = [];
   if (angles.reduce(function(a,b){ return a+b; }, 0) != 360) { return lines;}
@@ -27,6 +47,28 @@ function RADIAL_ANGLE(angles, radius, cx, cy, rotation, M){
     sum += angles[i];
     lines.push({'x1': cx + radius  * Math.cos(Math.PI * sum / 180),
                'y1': cy + radius  * Math.sin(Math.PI *  sum / 180),
+               'x2': cx,
+               'y2': cy});
+  }
+  var web = [];
+  for( i = 0; i < angles.length; i++){
+    web = web.concat(WEB(lines[i], lines[(i+1)%(angles.length)], M));
+  }
+  lines = lines.concat(web);
+  lines = ROTATE(lines, rotation, cx, cy);
+  return lines;
+}
+
+function RADIAL_ANGLE_RADII(angles, radii, cx, cy, rotation, M){
+  var lines = [];
+  if (angles.reduce(function(a,b){ return a+b; }, 0) != 360 || angles.length != radii.length) { return lines;}
+  if (typeof rotation === "undefined"){ rotation = 0;}
+  if (typeof M === "undefined"){ M = 10;}
+  var sum = 0;
+  for (var i = 0; i < angles.length; i++) {
+    sum += angles[i];
+    lines.push({'x1': cx + radii[i]  * Math.cos(Math.PI * sum / 180),
+               'y1': cy + radii[i] * Math.sin(Math.PI *  sum / 180),
                'x2': cx,
                'y2': cy});
   }

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+@font-face {
+    font-family: myFirstFont;
+    src: url('font/VAGRoundedStd-Thin.otf');
+}
+body {
+  font-family: myFirstFont;
+}
+line {
+  stroke-width: 1px;
+  stroke: black;
+}
+</style>
+<body>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="LINES.js"></script>
+<script>
+
+
+var dim=600,
+    width = dim,
+    height = dim,
+    M= 10;
+
+var data = [{'x1': 0, 'y1':0, 'x2': 300, 'y2':100},
+{'x1': 500, 'y1': 400, 'x2': 300, 'y2':100},
+{'x1': 500, 'y1': 400, 'x2': 0, 'y2':0}];
+
+var circles = getCircles({'x': 0, 'y':0},{'x': 300, 'y':100},{'x': 500, 'y':400}, 0);
+
+
+svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+lines = svg.selectAll(".lines");
+lines.data(data)
+  .enter().append("line")
+  .attr("x1", function(d){ return d.x1;})
+  .attr("y1", function(d){ return d.y1;})
+  .attr("x2", function(d){ return d.x2;})
+  .attr("y2", function(d){ return d.y2;});
+
+circles.forEach(function(circle){
+  svg.append("circle")
+    .attr("cx", circle.x)
+    .attr("cy", circle.y)
+    .attr("r", circle.r);
+});
+
+function getCircles(p1,p2,p3, n){
+  if(n>=10){
+    return [];
+  }
+  var circles = [];
+  var circle = {};
+  var a = Math.sqrt( Math.pow((p1.x-p2.x),2) + Math.pow((p1.y-p2.y),2) );
+  var b = Math.sqrt( Math.pow((p3.x-p2.x),2) + Math.pow((p3.y-p2.y),2) );
+  var c = Math.sqrt( Math.pow((p1.x-p3.x),2) + Math.pow((p1.y-p3.y),2) );
+  circle['x'] = (a*p3.x+b*p1.x+c*p2.x)/(a+b+c);
+  circle['y'] = (a*p3.y+b*p1.y+c*p2.y)/(a+b+c);
+  var area = (p1.x*(p2.y-circle.y) +p2.x*(circle.y-p1.y) + circle.x*(p1.y-p2.y))*1.0/2;
+  circle['r'] = 2*area/a;
+  circles.push(circle);
+  if (n == 0) {
+    circles.concat(p1, , ,n+1);
+    circles.concat(p2, , ,n+1);
+    circles.concat(p3, , , n+1);
+  }else{
+    circles.concat(p1, , ,n+1);
+  }
+  return circles;
+}
+
+</script>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+@font-face {
+    font-family: myFirstFont;
+    src: url('font/VAGRoundedStd-Thin.otf');
+}
+body {
+  font-family: myFirstFont;
+}
+line {
+  stroke-width: 1px;
+  stroke: black;
+}
+</style>
+<body>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="LINES.js"></script>
+<script>
+
+
+var width = 1000,
+    height = 500,
+    M= 10;
+
+var data = [{'x1': 0, 'y1':300, 'x2': 0, 'y2':500},
+{'x1': 1000, 'y1': 500, 'x2': 1000, 'y2':300},
+
+{'x1': 710, 'y1': 350, 'x2': 750, 'y2':310},
+{'x1': 800, 'y1': 310, 'x2': 750, 'y2':310},
+{'x1': 800, 'y1': 310, 'x2': 810, 'y2':350},
+
+{'x1': 800, 'y1': 310, 'x2': 850, 'y2':310},
+{'x1': 890, 'y1': 350, 'x2': 850, 'y2':310}];
+
+data = data.concat(WEB(data[0], data[1], 30));
+
+data = data.concat(WEB(data[2], data[3], 10));
+data = data.concat(WEB(data[3], data[4], 10));
+
+data = data.concat(WEB(data[4], data[5], 10));
+data = data.concat(WEB(data[5], data[6], 10));
+
+svgs = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+lines = svgs.selectAll(".lines");
+lines.data(data)
+  .enter().append("line")
+  .attr("x1", function(d){ return d.x1;})
+  .attr("y1", function(d){ return d.y1;})
+  .attr("x2", function(d){ return d.x2;})
+  .attr("y2", function(d){ return d.y2;});
+
+
+
+</script>

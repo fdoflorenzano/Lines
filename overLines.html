@@ -18,36 +18,33 @@ line {
 <script src="LINES.js"></script>
 <script>
 
-var dim=1000,
+
+var dim=600,
     width = dim,
-    height = dim;
+    height = dim,
+    M= 10;
 
-var data = [];
+var data = [{'x1': 0, 'y1':0, 'x2': 300, 'y2':50},
+{'x1': 400, 'y1': 350, 'x2': 300, 'y2':50},
+{'x1': 400, 'y1': 350, 'x2': 50, 'y2':300},
+{'x1': 0, 'y1': 0, 'x2': 50, 'y2':300}];
 
-var angles = [360];
-function divide (a){
-  var angle = a.pop();
-  if(angle < 1){
-    a.push(angle);
-    return a;
-  }
-  a.push(angle/2);
-  a.push(angle/2);
-  divide(a);
-}
-divide(angles);
+data = data.concat(WEB(data[0], data[1], 30));
+data = data.concat(WEB(data[1], data[2], 30));
+data = data.concat(WEB(data[2], data[3], 30));
+data = data.concat(WEB(data[3], data[4], 30));
 
-data = data.concat(RADIAL_ANGLE(angles , width/2, width/2, width/2, 100, 20));
-
-svg = d3.select("body").append("svg")
+svgs = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
-lines = svg.selectAll(".lines");
+lines = svgs.selectAll(".lines");
 lines.data(data)
   .enter().append("line")
   .attr("x1", function(d){ return d.x1;})
   .attr("y1", function(d){ return d.y1;})
   .attr("x2", function(d){ return d.x2;})
   .attr("y2", function(d){ return d.y2;});
+
+
 
 </script>
